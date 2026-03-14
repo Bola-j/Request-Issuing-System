@@ -1,0 +1,68 @@
+@model IEnumerable<SimpleWebApp.Models.Request>
+@{
+    ViewData["Title"] = "Requests";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Submitted Requests</h1>
+    <a asp-action="Create" class="btn btn-primary">New Request</a>
+</div>
+
+@if (TempData["Error"] is string errorMessage)
+{
+    <div class="alert alert-warning">@errorMessage</div>
+}
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Request Type</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in Model)
+            {
+                <tr>
+                    <td>@request.FullName</td>
+                    <td>@request.Email</td>
+                    <td>@request.RequestType</td>
+                    <td>
+                        @if (request.Status == SimpleWebApp.Models.RequestStatus.Pending)
+                        {
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        }
+                        else if (request.Status == SimpleWebApp.Models.RequestStatus.Approved)
+                        {
+                            <span class="badge bg-success">Approved</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Rejected</span>
+                        }
+                    </td>
+                    <td>@request.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                    <td class="text-end">
+                        @if (request.Status == SimpleWebApp.Models.RequestStatus.Pending)
+                        {
+                            <a asp-action="Edit" asp-route-id="@request.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <form asp-action="Delete" asp-route-id="@request.Id" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this request?');">Delete</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Locked</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

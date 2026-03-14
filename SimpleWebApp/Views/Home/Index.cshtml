@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Request Issuing System";
+}
+
+<div class="p-5 mb-4 bg-light rounded-3 border">
+    <div class="container-fluid py-3">
+        <h1 class="display-6 fw-bold">Request / Issuing System</h1>
+        <p class="fs-5">Users can submit and track requests, while administrators can review, approve, and reject them from the dashboard.</p>
+        <a asp-controller="Request" asp-action="Create" class="btn btn-primary btn-lg me-2">Submit Request</a>
+        <a asp-controller="Admin" asp-action="Index" class="btn btn-outline-dark btn-lg">Admin Dashboard</a>
+    </div>
+</div>

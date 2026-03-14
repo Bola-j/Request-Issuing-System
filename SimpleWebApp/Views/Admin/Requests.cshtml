@@ -1,0 +1,58 @@
+@model IEnumerable<SimpleWebApp.Models.Request>
+@{
+    ViewData["Title"] = "Admin Request Management";
+}
+
+<h1 class="h3 mb-3">All Requests</h1>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in Model)
+            {
+                <tr>
+                    <td>@request.FullName</td>
+                    <td>@request.Email</td>
+                    <td>@request.RequestType</td>
+                    <td>@request.Description</td>
+                    <td>
+                        @if (request.Status == SimpleWebApp.Models.RequestStatus.Pending)
+                        {
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        }
+                        else if (request.Status == SimpleWebApp.Models.RequestStatus.Approved)
+                        {
+                            <span class="badge bg-success">Approved</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Rejected</span>
+                        }
+                    </td>
+                    <td>@request.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                    <td class="text-end">
+                        <form asp-action="Approve" asp-route-id="@request.Id" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-sm btn-outline-success" type="submit">Approve</button>
+                        </form>
+                        <form asp-action="Reject" asp-route-id="@request.Id" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-sm btn-outline-danger" type="submit">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

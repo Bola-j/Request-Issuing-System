@@ -1,0 +1,54 @@
+@model SimpleWebApp.Models.Request
+@{
+    ViewData["Title"] = "Submit Request";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h1 class="h5 mb-0">Request Form</h1>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="FullName" class="form-label"></label>
+                            <input asp-for="FullName" class="form-control" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="RequestType" class="form-label"></label>
+                            <input asp-for="RequestType" class="form-control" placeholder="Example: Asset Issue, Leave, Access" />
+                            <span asp-validation-for="RequestType" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Description" class="form-label"></label>
+                            <textarea asp-for="Description" rows="4" class="form-control"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-success">Submit Request</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
